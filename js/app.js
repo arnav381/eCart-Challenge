@@ -1,34 +1,22 @@
 function getProducts() {
 
-    if (typeof products !== "undefined" &&
-        Array.isArray(products)) {
+    const products = [];
 
-        return products;
-    }
+    storeData.categories.forEach(function(category) {
 
+        category.subcategories.forEach(function(subcategory) {
 
-    if (typeof productData !== "undefined" &&
-        Array.isArray(productData)) {
+            subcategory.products.forEach(function(product) {
 
-        return productData;
-    }
+                products.push(product);
 
+            });
 
-    if (typeof productsData !== "undefined" &&
-        Array.isArray(productsData)) {
+        });
 
-        return productsData;
-    }
+    });
 
-
-    if (typeof data !== "undefined" &&
-        Array.isArray(data)) {
-
-        return data;
-    }
-
-
-    return [];
+    return products;
 }
 
 
@@ -43,6 +31,7 @@ function findProductById(productId) {
                String(productId);
 
     });
+
 }
 
 
@@ -61,6 +50,7 @@ function openProduct(productId) {
 
 
     showProductDetails(product);
+
 }
 
 
