@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Product Explorer</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🛍️ Product Explorer</h1>
+        <p>Explore products and manage your recently viewed items</p>
+    </header>
+
+
+    <main>
+
+        <!-- All Products -->
+        <section class="products-section">
+
+            <h2>Products</h2>
+
+            <div id="productContainer" class="product-grid">
+                <!-- Products will be added using JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- Recently Viewed -->
+        <section class="recent-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Recently Viewed</h2>
+                    <p>Your recently opened products</p>
+                </div>
+
+                <button id="clearHistoryBtn">
+                    Clear History
+                </button>
+
+            </div>
+
+
+            <div id="recentContainer" class="product-grid">
+                <!-- Recently viewed products -->
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Product Details Modal -->
+    <div id="productModal" class="modal">
+
+        <div class="modal-content">
+
+            <button id="closeModalBtn" class="close-btn">
+                ×
+            </button>
+
+            <div id="productDetails">
+                <!-- Product details will appear here -->
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="data.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
