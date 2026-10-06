@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Product Explorer</title>
+    <title>Smart Delivery Route</title>
 
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -14,44 +12,70 @@
 <body>
 
     <header>
-        <h1>🛍️ Product Explorer</h1>
-        <p>Explore products and manage your recently viewed items</p>
+        <h1>🚚 Smart Delivery Route</h1>
+        <p>Find the shortest delivery route</p>
     </header>
-
 
     <main>
 
-        <!-- All Products -->
-        <section class="products-section">
+        <section class="route-section">
 
-            <h2>Products</h2>
+            <h2>Delivery Route Planner</h2>
 
-            <div id="productContainer" class="product-grid">
-                <!-- Products will be added using JavaScript -->
+            <div class="form-container">
+
+                <div class="input-group">
+                    <label for="fromLocation">From</label>
+
+                    <select id="fromLocation">
+                        <option value="">Select starting location</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="toLocation">To</label>
+
+                    <select id="toLocation">
+                        <option value="">Select destination</option>
+                    </select>
+                </div>
+
+                <button id="findRouteBtn">
+                    Find Best Route
+                </button>
+
             </div>
 
         </section>
 
 
-        <!-- Recently Viewed -->
-        <section class="recent-section">
+        <section id="resultSection" class="result-section">
 
-            <div class="section-header">
+            <h2>Best Delivery Route</h2>
 
-                <div>
-                    <h2>Recently Viewed</h2>
-                    <p>Your recently opened products</p>
-                </div>
-
-                <button id="clearHistoryBtn">
-                    Clear History
-                </button>
-
+            <div id="routeContainer">
+                <p class="empty-message">
+                    Select locations and find the best route.
+                </p>
             </div>
 
+            <div class="route-summary">
 
-            <div id="recentContainer" class="product-grid">
-                <!-- Recently viewed products -->
+                <div class="summary-card">
+                    <h3>Total Distance</h3>
+                    <p id="distance">-</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Number of Stops</h3>
+                    <p id="stops">-</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Estimated Time</h3>
+                    <p id="time">-</p>
+                </div>
+
             </div>
 
         </section>
@@ -59,27 +83,9 @@
     </main>
 
 
-    <!-- Product Details Modal -->
-    <div id="productModal" class="modal">
-
-        <div class="modal-content">
-
-            <button id="closeModalBtn" class="close-btn">
-                ×
-            </button>
-
-            <div id="productDetails">
-                <!-- Product details will appear here -->
-            </div>
-
-        </div>
-
-    </div>
-
-
     <script src="../data/data.js"></script>
+    <script src="../js/feature/delivery.js"></script>
     <script src="../js/ui.js"></script>
-    <script src="../js/feature/recentlyViewed.js"></script>
     <script src="../js/app.js"></script>
 
 </body>
