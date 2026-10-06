@@ -1,93 +1,46 @@
-function getProducts() {
+let userSelect = document.getElementById("userSelect");
+let refreshBtn = document.getElementById("refreshBtn");
 
-    const products = [];
+let refreshCount = 0;
 
-    storeData.categories.forEach(function(category) {
 
-        category.subcategories.forEach(function(subcategory) {
+function loadRecommendations() {
 
-            subcategory.products.forEach(function(product) {
+    let userIndex = Number(userSelect.value);
 
-                products.push(product);
+    displayViewedProducts(userIndex);
 
-            });
+    let recommendations = getRecommendations(userIndex);
 
+    if (refreshCount > 0) {
+
+        recommendations.sort(function() {
+            return Math.random() - 0.5;
         });
+    }
 
-    });
+    recommendations = recommendations.slice(0, 3);
 
-    return products;
+    displayRecommendations(userIndex, recommendations);
 }
 
 
-const allProducts = getProducts();
+userSelect.addEventListener("change", function() {
+
+    refreshCount = 0;
+
+    loadRecommendations();
+
+});
 
 
-function findProductById(productId) {
+refreshBtn.addEventListener("click", function() {
 
-    return allProducts.find(function(product) {
+    refreshCount++;
 
-        return String(getProductId(product)) ===
-               String(productId);
+    loadRecommendations();
 
-    });
-
-}
+});
 
 
-function openProduct(productId) {
-
-    const product =
-        findProductById(productId);
-
-
-    if (!product) {
-        return;
-    }
-
-
-    addToRecentlyViewed(productId);
-
-
-    showProductDetails(product);
-
-}
-
-
-clearHistoryBtn.addEventListener(
-    "click",
-    function() {
-
-        clearRecentlyViewed();
-
-    }
-);
-
-
-closeModalBtn.addEventListener(
-    "click",
-    function() {
-
-        closeProductModal();
-
-    }
-);
-
-
-productModal.addEventListener(
-    "click",
-    function(event) {
-
-        if (event.target === productModal) {
-
-            closeProductModal();
-
-        }
-
-    }
-);
-
-
-displayProducts(allProducts);
-
-displayRecentlyViewed();
+loadRecommendations();
