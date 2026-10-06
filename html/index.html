@@ -2,84 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Product Explorer</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Recommendations</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
     <header>
-        <h1>🛍️ Product Explorer</h1>
-        <p>Explore products and manage your recently viewed items</p>
+        <h1>Product Explorer</h1>
+        <p>Personalized Recommendations</p>
     </header>
-
 
     <main>
 
-        <!-- All Products -->
-        <section class="products-section">
+        <section class="user-section">
+            <h2>Current User</h2>
 
-            <h2>Products</h2>
-
-            <div id="productContainer" class="product-grid">
-                <!-- Products will be added using JavaScript -->
-            </div>
-
+            <select id="userSelect">
+                <option value="0">User A</option>
+                <option value="1">User B</option>
+                <option value="2">User C</option>
+            </select>
         </section>
 
+        <section class="viewed-section">
+            <h2>Currently Viewed Products</h2>
+            <div id="viewedProducts"></div>
+        </section>
 
-        <!-- Recently Viewed -->
-        <section class="recent-section">
+        <section class="recommendation-section">
 
             <div class="section-header">
+                <h2>Recommended For You</h2>
 
-                <div>
-                    <h2>Recently Viewed</h2>
-                    <p>Your recently opened products</p>
-                </div>
-
-                <button id="clearHistoryBtn">
-                    Clear History
+                <button id="refreshBtn">
+                    Refresh Recommendations
                 </button>
-
             </div>
 
-
-            <div id="recentContainer" class="product-grid">
-                <!-- Recently viewed products -->
-            </div>
+            <div id="recommendations" class="product-grid"></div>
 
         </section>
 
     </main>
 
-
-    <!-- Product Details Modal -->
-    <div id="productModal" class="modal">
-
-        <div class="modal-content">
-
-            <button id="closeModalBtn" class="close-btn">
-                ×
-            </button>
-
-            <div id="productDetails">
-                <!-- Product details will appear here -->
-            </div>
-
-        </div>
-
-    </div>
-
-
     <script src="../data/data.js"></script>
+    <script src="../js/feature/recommendations.js"></script>
     <script src="../js/ui.js"></script>
-    <script src="../js/feature/recentlyViewed.js"></script>
     <script src="../js/app.js"></script>
 
 </body>
