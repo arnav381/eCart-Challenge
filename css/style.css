@@ -1,197 +1,176 @@
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
 
 body {
     font-family: Arial, sans-serif;
-    background: #f5f7fb;
+    background: #f4f6f8;
     color: #222;
 }
 
+
 header {
-    background: #111827;
+    background: #222;
     color: white;
     text-align: center;
     padding: 30px 20px;
 }
 
+
 header h1 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-header p {
-    color: #d1d5db;
-}
 
 main {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 30px auto;
 }
 
-section {
-    margin-bottom: 45px;
+
+.route-section,
+.result-section {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-section h2 {
+
+h2 {
     margin-bottom: 20px;
 }
 
 
-/* Product Grid */
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.form-container {
+    display: flex;
     gap: 20px;
+    align-items: end;
+    flex-wrap: wrap;
 }
 
 
-/* Product Card */
-
-.product-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s;
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
 }
 
-.product-card:hover {
-    transform: translateY(-4px);
-}
 
-.product-card h3 {
-    margin-bottom: 10px;
-}
-
-.product-brand {
-    color: #6b7280;
-    margin-bottom: 10px;
-}
-
-.product-price {
-    font-size: 20px;
+.input-group label {
     font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.product-rating {
-    margin-bottom: 15px;
 }
 
 
-/* Buttons */
+select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
 
 button {
+    padding: 12px 20px;
+    background: #222;
+    color: white;
     border: none;
-    border-radius: 7px;
-    padding: 10px 15px;
+    border-radius: 6px;
     cursor: pointer;
-}
-
-.view-btn {
-    background: #2563eb;
-    color: white;
-    width: 100%;
-}
-
-.view-btn:hover {
-    background: #1d4ed8;
-}
-
-#clearHistoryBtn {
-    background: #dc2626;
-    color: white;
-}
-
-#clearHistoryBtn:hover {
-    background: #b91c1c;
+    font-size: 16px;
 }
 
 
-/* Section Header */
+button:hover {
+    background: #444;
+}
 
-.section-header {
+
+.route-box {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
-}
-
-
-/* Empty State */
-
-.empty-state {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    text-align: center;
-    color: #6b7280;
-}
-
-
-/* Modal */
-
-.modal {
-    display: none;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.6);
-
-    justify-content: center;
-    align-items: center;
-
+    gap: 8px;
     padding: 20px;
 }
 
-.modal-content {
-    background: white;
-    width: 100%;
-    max-width: 500px;
 
-    border-radius: 15px;
+.location-box {
+    padding: 15px 25px;
+    background: #eef2f5;
+    border-radius: 8px;
+    font-weight: bold;
+    min-width: 220px;
+    text-align: center;
+}
+
+
+.arrow {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+.route-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+
+.summary-card {
+    background: #f4f6f8;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+
+.summary-card h3 {
+    margin-bottom: 10px;
+}
+
+
+.summary-card p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.empty-message {
+    text-align: center;
     padding: 30px;
-
-    position: relative;
-}
-
-.close-btn {
-    position: absolute;
-
-    right: 15px;
-    top: 15px;
-
-    font-size: 24px;
-
-    background: #eeeeee;
+    color: #777;
 }
 
 
-/* Mobile */
+@media (max-width: 700px) {
 
-@media (max-width: 600px) {
-
-    main {
-        width: 94%;
-    }
-
-    .section-header {
+    .form-container {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        align-items: stretch;
     }
 
-    .product-grid {
+
+    .input-group {
+        width: 100%;
+    }
+
+
+    button {
+        width: 100%;
+    }
+
+
+    .route-summary {
         grid-template-columns: 1fr;
     }
-
 }

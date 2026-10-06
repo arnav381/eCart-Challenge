@@ -1,337 +1,90 @@
-const productContainer =
-    document.getElementById("productContainer");
+function loadLocations() {
 
-const recentContainer =
-    document.getElementById("recentContainer");
-
-const productModal =
-    document.getElementById("productModal");
-
-const productDetails =
-    document.getElementById("productDetails");
-
-const clearHistoryBtn =
-    document.getElementById("clearHistoryBtn");
-
-const closeModalBtn =
-    document.getElementById("closeModalBtn");
+    let fromSelect = document.getElementById("fromLocation");
+    let toSelect = document.getElementById("toLocation");
 
 
-function getProductId(product) {
+    for (let location of deliveryNetwork.locations) {
 
-    return product.id ??
-           product.productId ??
-           product._id;
-}
+        let option1 = document.createElement("option");
+        option1.value = location.id;
+        option1.textContent = location.name;
 
-
-function getProductName(product) {
-
-    return product.name ??
-           product.productName ??
-           product.title ??
-           "Unnamed Product";
-}
+        fromSelect.appendChild(option1);
 
 
-function getProductBrand(product) {
+        let option2 = document.createElement("option");
+        option2.value = location.id;
+        option2.textContent = location.name;
 
-    return product.brand ??
-           product.brandName ??
-           "Unknown Brand";
-}
-
-
-function getProductPrice(product) {
-
-    return product.price ??
-           product.productPrice ??
-           0;
-}
-
-
-function getProductRating(product) {
-
-    return product.rating ??
-           product.ratings ??
-           0;
-}
-
-
-function getProductImage(product) {
-
-    return product.image ??
-           product.imageUrl ??
-           product.thumbnail ??
-           "";
-}
-
-
-function formatPrice(price) {
-
-    if (typeof price !== "number") {
-        return price;
+        toSelect.appendChild(option2);
     }
-
-    return "₹" + price.toLocaleString("en-IN");
 }
 
 
-function displayProducts(products) {
+function displayRoute(result) {
 
-    productContainer.innerHTML = "";
+    let routeContainer =
+        document.getElementById("routeContainer");
 
-    if (!products || products.length === 0) {
+    routeContainer.innerHTML = "";
 
-        productContainer.innerHTML = `
-            <div class="empty-state">
-                <h3>No products found</h3>
-                <p>No products are available.</p>
-            </div>
-        `;
 
-        return;
+    let routeBox = document.createElement("div");
+    routeBox.className = "route-box";
+
+
+    for (let i = 0; i < result.path.length; i++) {
+
+        let locationName =
+            getLocationName(result.path[i]);
+
+
+        let locationBox = document.createElement("div");
+        locationBox.className = "location-box";
+
+        locationBox.textContent = locationName;
+
+        routeBox.appendChild(locationBox);
+
+
+        if (i < result.path.length - 1) {
+
+            let arrow = document.createElement("div");
+            arrow.className = "arrow";
+
+            arrow.textContent = "↓";
+
+            routeBox.appendChild(arrow);
+        }
     }
 
 
-    products.forEach(function(product) {
-
-        const card = document.createElement("div");
-
-        card.className = "product-card";
+    routeContainer.appendChild(routeBox);
 
 
-        const image = getProductImage(product);
+    document.getElementById("distance").textContent =
+        result.distance + " km";
 
 
-        card.innerHTML = `
-
-            ${
-                image
-                ?
-                `
-                <img
-                    src="${image}"
-                    alt="${getProductName(product)}"
-                    class="product-image"
-                >
-                `
-                :
-                ""
-            }
+    document.getElementById("stops").textContent =
+        result.path.length;
 
 
-            <h3>
-                ${getProductName(product)}
-            </h3>
-
-
-            <p class="product-brand">
-                ${getProductBrand(product)}
-            </p>
-
-
-            <p class="product-price">
-                ${formatPrice(getProductPrice(product))}
-            </p>
-
-
-            <p class="product-rating">
-                ⭐ ${getProductRating(product)}
-            </p>
-
-
-            <button
-                class="view-btn"
-                data-id="${getProductId(product)}">
-
-                View Product
-
-            </button>
-        `;
-
-
-        const viewButton =
-            card.querySelector(".view-btn");
-
-
-        viewButton.addEventListener("click", function() {
-
-            openProduct(
-                getProductId(product)
-            );
-
-        });
-
-
-        productContainer.appendChild(card);
-    });
+    document.getElementById("time").textContent =
+        calculateDeliveryTime(result.distance) + " minutes";
 }
 
 
-function displayRecentlyViewed() {
+function showMessage(message) {
 
-    recentContainer.innerHTML = "";
+    let routeContainer =
+        document.getElementById("routeContainer");
 
+    routeContainer.innerHTML =
+        `<p class="empty-message">${message}</p>`;
 
-    const history = getRecentlyViewed();
-
-
-    if (history.length === 0) {
-
-        recentContainer.innerHTML = `
-            <div class="empty-state">
-
-                <h3>No recently viewed products</h3>
-
-                <p>
-                    Open a product to see it here.
-                </p>
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-    history.forEach(function(id) {
-
-        const product = findProductById(id);
-
-
-        if (!product) {
-            return;
-        }
-
-
-        const card =
-            createRecentProductCard(product);
-
-
-        recentContainer.appendChild(card);
-
-    });
-}
-
-
-function createRecentProductCard(product) {
-
-    const card =
-        document.createElement("div");
-
-    card.className = "product-card";
-
-
-    const image =
-        getProductImage(product);
-
-
-    card.innerHTML = `
-
-        ${
-            image
-            ?
-            `
-            <img
-                src="${image}"
-                alt="${getProductName(product)}"
-                class="product-image"
-            >
-            `
-            :
-            ""
-        }
-
-
-        <h3>
-            ${getProductName(product)}
-        </h3>
-
-
-        <p class="product-brand">
-            ${getProductBrand(product)}
-        </p>
-
-
-        <p class="product-price">
-            ${formatPrice(getProductPrice(product))}
-        </p>
-
-
-        <button class="view-btn">
-            View Product
-        </button>
-    `;
-
-
-    card.querySelector(".view-btn")
-        .addEventListener("click", function() {
-
-            openProduct(
-                getProductId(product)
-            );
-
-        });
-
-
-    return card;
-}
-
-
-function showProductDetails(product) {
-
-    const image =
-        getProductImage(product);
-
-
-    productDetails.innerHTML = `
-
-        ${
-            image
-            ?
-            `
-            <img
-                src="${image}"
-                alt="${getProductName(product)}"
-                class="modal-image"
-            >
-            `
-            :
-            ""
-        }
-
-
-        <h2>
-            ${getProductName(product)}
-        </h2>
-
-
-        <p>
-            <strong>Brand:</strong>
-            ${getProductBrand(product)}
-        </p>
-
-
-        <p>
-            <strong>Price:</strong>
-            ${formatPrice(getProductPrice(product))}
-        </p>
-
-
-        <p>
-            <strong>Rating:</strong>
-            ⭐ ${getProductRating(product)}
-        </p>
-
-    `;
-
-
-    productModal.style.display = "flex";
-}
-
-
-function closeProductModal() {
-
-    productModal.style.display = "none";
+    document.getElementById("distance").textContent = "-";
+    document.getElementById("stops").textContent = "-";
+    document.getElementById("time").textContent = "-";
 }
