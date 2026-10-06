@@ -1,93 +1,58 @@
-function getProducts() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const products = [];
+    createGraph();
 
-    storeData.categories.forEach(function(category) {
-
-        category.subcategories.forEach(function(subcategory) {
-
-            subcategory.products.forEach(function(product) {
-
-                products.push(product);
-
-            });
-
-        });
-
-    });
-
-    return products;
-}
+    loadLocations();
 
 
-const allProducts = getProducts();
+    let fromLocation =
+        document.getElementById("fromLocation");
+
+    let toLocation =
+        document.getElementById("toLocation");
+
+    let findRouteBtn =
+        document.getElementById("findRouteBtn");
 
 
-function findProductById(productId) {
+    findRouteBtn.addEventListener("click", function () {
 
-    return allProducts.find(function(product) {
-
-        return String(getProductId(product)) ===
-               String(productId);
-
-    });
-
-}
+        let start = fromLocation.value;
+        let end = toLocation.value;
 
 
-function openProduct(productId) {
+        if (start === "" || end === "") {
 
-    const product =
-        findProductById(productId);
+            showMessage("Please select both locations.");
 
-
-    if (!product) {
-        return;
-    }
-
-
-    addToRecentlyViewed(productId);
-
-
-    showProductDetails(product);
-
-}
-
-
-clearHistoryBtn.addEventListener(
-    "click",
-    function() {
-
-        clearRecentlyViewed();
-
-    }
-);
-
-
-closeModalBtn.addEventListener(
-    "click",
-    function() {
-
-        closeProductModal();
-
-    }
-);
-
-
-productModal.addEventListener(
-    "click",
-    function(event) {
-
-        if (event.target === productModal) {
-
-            closeProductModal();
-
+            return;
         }
 
-    }
-);
+
+        if (start === end) {
+
+            showMessage(
+                "Starting location and destination cannot be the same."
+            );
+
+            return;
+        }
 
 
-displayProducts(allProducts);
+        let result = getRouteDetails(start, end);
 
-displayRecentlyViewed();
+
+        if (result === null) {
+
+            showMessage(
+                "No route is available between these locations."
+            );
+
+            return;
+        }
+
+
+        displayRoute(result);
+    });
+
+});
